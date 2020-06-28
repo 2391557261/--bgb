@@ -144,4 +144,5 @@ switch($_GET['act']){
 		echo "<script>alert('删除成功!');location=admin.php'?mod=goods&act=list'</script>";
 	break;
 }
+
 ?>
