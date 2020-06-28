@@ -1,0 +1,21 @@
+@charset "utf-8";
+/* CSS Document */
+body{margin:0px 0px 0px 0px;font-size:13px;}
+.status{ font-size:16px; font-weight:bold; color:#666;}
+.submit{ padding:5px 10px 5px 10px;}
+span{display:inline-block}
+.topmenu A:visited {TEXT-DECORATION:none;COLOR: #fff; font-size:18px;} 
+.topmenu A:link    {text-decoration:none;COLOR:#fff;font-size:18px;} 
+.topmenu A:hover   {TEXT-DECORATION: none;COLOR:#fff;FONT-WEIGHT: normal;FONT-STYLE: normal;font-size:18px;} 
+.indexmenu A:visited {TEXT-DECORATION:none;COLOR: #fff; font-size:18px;} 
+.indexmenu A:link    {text-decoration:none;COLOR:#fff;font-size:18px;} 
+.indexmenu A:hover   {TEXT-DECORATION: none;COLOR:#fff;FONT-WEIGHT: normal;FONT-STYLE: normal;font-size:18px;} 
+/*分页*/
+.ex_page_bottm{border:solid 1px #ccc;display:inline-block;line-height:20px;font-family:simsun;width:40px;cursor:pointer}
+.ex_page_sec{background-color:#eee; }
+.ex_page_link A:visited {TEXT-DECORATION:none;COLOR:#664444;} 
+.ex_page_link A:link    {text-decoration:none;COLOR:#660000;} 
+.ex_page_link A:hover   {TEXT-DECORATION: none;COLOR:#664444;FONT-WEIGHT: normal;FONT-STYLE: normal;} 
+.op{cursor:pointer;float:left;margin-top:5px;}
+.op2{cursor:pointer;float:left;margin-left:10px;margin-top:5px;}
+ 
