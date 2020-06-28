@@ -1,0 +1,10 @@
+<?php
+  include_once("head.php");
+  $_GET['mod']=isset($_GET['mod'])?$_GET['mod']:"goods"; 
+  if(isset($_GET['mod'])&&$_GET['mod']){
+	  if($_GET['mod']=='goods'&&$_GET['act']=='cart')
+	  checkLoginStatus();
+      include_once("module/{$_GET['mod']}Control.php");	   
+  }
+  include_once("foot.php");
+?>
