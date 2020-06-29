@@ -40,7 +40,33 @@ switch($_GET['act']){
 		}
 		echo "</table></form>";		
 	break;
+	case "edit":
+		$id=intval($_GET['id']);
+		$Arr=getone("select * from guestbook   where id=$id");
+		echo "
+		<center>
+		<div style='width:450px;height:130px;margin-top:20px;' align='left'>
+		<form style='width:420px;height:130px;' action='admin.php?mod=book&act=save&id=$id' method='post'>
+		<span class='myspan' style='width:80px;'>昵称：</span><input name='nickname' style='padding:0px;margin:0px;' value='{$Arr['nickname']}'><br>
+		<span class='myspan' style='width:80px;'>标题：</span><input name='title' style='padding:0px;margin:0px;' value='{$Arr['title']}'><br>
+		<span class='myspan' style='width:80px;'>留言内容：</span><input name='content' style='padding:0px;margin:0px;' value='{$Arr['content']}'><br>
+		<span class='myspan' style='width:80px;'>回复：</span><textarea name='reply' style='padding:0px;margin:0px;width:300px;height:100px'>{$Arr['reply']}</textarea><br>	
+		<center><input type='submit' value='保存' class='submit'></center></form>
+		</div></center>";	
+	break;
 	
+	case "save":
+		$id=intval($_GET['id']);
+		$query="update guestbook set
+		nickname='{$_POST['nickname']}',   
+		title='{$_POST['title']}',
+		content='{$_POST['content']}',
+		reply='{$_POST['reply']}' 
+		where id=$id";
+		if(query($query)){
+			echo "<script>alert('编辑成功');location='admin.php?mod=book&act=list'</script>";
+		}
+	break;
 	
 	case "alldel":
 		$key=isset($_POST["allidd"])&&$_POST["allidd"]?$_POST["allidd"]:array(intval($_GET['id']));
