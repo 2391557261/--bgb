@@ -41,69 +41,6 @@ switch($_GET['act']){
 		echo "</table>";
 	break;
 	
-	case "comment":
-		$id=intval($_GET['id']);
-		if(!$_POST['content']){
-			echo "<script>alert('评论内容不能为空！');location='index.php?mod=goods&act=show&id=$id'</script>";
-			die();
-		}
-		$query="insert into comment set 
-		cid='$id',
-		content='{$_POST['content']}',
-		author='{$_POST['author']}',
-		uid='{$_SESSION['userid']}',
-		ptime='".time()."'";
-		if(query($query)){
-			echo "<script>alert('评论成功！');location='index.php?mod=goods&act=show&id=$id'</script>";
-			die();
-		}
-		else die($query);
-	break;
-		
-	case "show":
-		$Arr=getone("select * from goods where id=".intval($_GET['id']));
-		$C=getone("select * from restaurant  where id={$Arr['cid']}");
-		echo "
-		<div style='margin-top:20px;margin-left:100px;'>
-		 <div style='width:306px;float:left;border:solid 1px #ccc;'>
-		   <img src='{$Arr['picurl']}' style='border:solid 3px #fff;width:300px;height:200px;'>
-		 </div>
-		 <div style='width:350px;float:right;font-weight:bold;line-height:3' align='left'>
-		   所属餐厅：{$C['title']}<br>
-		   菜品名称：{$Arr['title']}<br>
-		   菜品售价：{$Arr['price']}<br>
-		   订购数量：<input name='num' value=1 style='width:30px;'><br>
-		   <img src='images/buy.gif' style='margin-top:30px;cursor:pointer' onclick=\"location='index.php?mod=goods&act=buy&id={$_GET['id']}&num='+$('input[name=num]').val()\">
-		 </div>
-		 <div style='clear:both'></div>
-		</div>
-		<div style='font-weight:bold;line-height:3;margin-left:100px;' align='left'>
-			 菜品描述：{$Arr['content']}
-		</div>
-		<hr>
-		<div>"; 
-		$commentQuery=getArr("select * from comment where cid='{$_GET['id']}'");
-		foreach($commentQuery as $cArr){
-			echo "<div style='border-bottom:dashed 1px #ccc;padding:5px;'>";
-			echo $cArr['author']?$cArr['author']:"匿名";
-			echo ":{$cArr['content']} &nbsp;&nbsp; [".date("Y-m-d H:i:s",$cArr['ptime'])."]";
-			echo"</div>";
-		}
-		echo"
-		</div>";
-		if(isset($_SESSION['userid'])){
-		echo"
-		<div style='margin-top:20px;'>
-		  <b>顾客评论：</b>
-		  <form action='?mod=goods&act=comment&id={$_GET['id']}' method='post'>
-			昵称：<input name='author'><br>
-			内容：<textarea style='width:300px;height:100px;' name='content'></textarea>
-			<input type='submit' value='提交' class='submit'>
-		  </form>
-		</div>";
-		}
-	break;
-	
 		
 }
 ?>
