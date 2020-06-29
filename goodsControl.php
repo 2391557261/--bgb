@@ -132,6 +132,49 @@ switch($_GET['act']){
 		</div></center>";
 	break;
 	
-	
+	case "confirm":
+		$zongjia=0;
+		$order=time();
+		$gid="";
+		?>
+		<script>
+			function checkorder(){
+		if(!$('input[name=sname]').val()){alert('买家姓名不能为空');$('input[name=sname]').focus();return false;}
+		if(!$('input[name=saddress]').val()){alert('送货地址不能为空');$('input[name=saddress]').focus();return false;}
+		}
+		</script>
+		<?php
+		echo "<form action='index.php?mod=orders&act=add' method='post' onsubmit='return checkorder()'>
+		<input type='hidden' name='title' value='$order'><br>
+		<b>确认您的订单</b>
+		<table style='width:400px;' align='center'>";
+		$num=1;
+		foreach($_SESSION['goods']as $key=>$value){
+			$retrunStr="";		 
+			$Goods=getone("select * from goods where id={$key}");
+			$retrunStr.="菜品：{$Goods['title']},单价：{$Goods['price']},总价：{$value},Subtotal：";
+			$retrunStr.=$Goods['price']*$value;
+			$retrunStr.=" 元<br>";
+			$gid.=$gid?",{$key}:{$value}":"{$key}:{$value}";
+			$zongjia+=$Goods['price']*$value;	     
+			echo "<tr style='height:30px;'><td>{$num}{$retrunStr}</td></tr>";
+			$num++;
+	   }
+	   echo "</table>
+	   <br>	 
+	   <b>订单总计：</b> $zongjia  元
+	   <input type='hidden' name='gid' value='$gid'>
+	   <input type='hidden' name='paymoney' value='$zongjia'>	<br><br>
+	   <b>配送方式：</b><br>
+		&nbsp; &nbsp; &nbsp; &nbsp;付款方式：<select   name='spay' value='' style='width:150px;'>
+		<option>货到付款</option> <option>支付宝</option> <option>网银</option>
+		</select><br>
+		&nbsp; &nbsp; &nbsp; &nbsp;买家姓名：<input   name='sname' value='' style='width:150px;'><br>
+		&nbsp; &nbsp; &nbsp; &nbsp;送餐地址：<input   name='saddress' value='' style='width:400px;'><br>
+		&nbsp; &nbsp; &nbsp; &nbsp;买家备注：<input   name='sbz' value='' style='width:400px;'><br>
+	   ";
+	   if($zongjia>0)echo"<center><div><input type='submit' value='保存订单' class='submit'></div></center>";
+	   echo"</form>";
+	break;	
 }
 ?>
