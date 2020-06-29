@@ -84,12 +84,54 @@ switch($_GET['act']){
 		</div></center>";
 	break;
 
+	case "save":
+		$id=intval($_GET['id']);
+		if($id){
+			$find=getone("select id from user where username='{$_POST['username']}' and id!=$id");
+			if($find['id']){
+				echo "<script>alert('该会员已存在!');location='admin.php?mod=user'</script>";
+				die();
+			}
+			if($_POST['password']) {$fsql=",password='".md5($_POST['password'])."'";}
+			else $fsql="";
+			$query="update user set
+			username='{$_POST['username']}',
+			age='{$_POST['age']}',
+			gender='{$_POST['gender']}', 
+			tag={$_POST['tag']}  $fsql
+			where id={$id}";
+			if(isset($_POST['username'])&&query($query))
+			echo "<script>alert('编辑成功!');location='?act=list'</script>";
+		}
+		else{
+			$find=getone("select id from user where username='{$_POST['username']}'");
+			if($find['id']){
+				echo "<script>alert('该会员已存在!');location='?act=reg'</script>";
+				die();
+			}
+			$query="insert into  user set
+			username='{$_POST['username']}',
+			password='".md5($_POST['password'])."',
+			age='{$_POST['age']}',
+			gender='{$_POST['gender']}', 
+			tag={$_POST['tag']}";
+			if(isset($_POST['username'])&&query($query))
+			echo "<script>alert('注册成功!');location='?act=list'</script>";
+		}
+	break;
+		
 	case "alldel":
 	  	$key=isset($_POST["allidd"])&&$_POST["allidd"]?$_POST["allidd"]:array(intval($_GET['id']));
 	    for($i=0;$i<count($key);$i++){ 
 		    $id=$key[$i];
 		    $find=getone("select tag from user where id=$id");
-
+			if($find['tag']>=8){
+				$find=getone("select id from user where id!=$id and tag=8");
+				if(!$find['id']){
+					echo "<script>alert('您至少要保留一个管理员账号');location='?act=list'</script>"; 
+					die();
+				}
+			}
 			query("delete from user where id=$id");
 	    }	
 		echo "<script>alert('删除成功!');location='?act=list'</script>";
