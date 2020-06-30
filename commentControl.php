@@ -7,6 +7,7 @@ switch($_GET['act']){
 		</form>";   
 		$fsql="";$fpage="";	
 		$countsql="select count(*) from comment where 1=1 $fsql";
+		$pagesql="select * from comment where 1=1 $fsql order by id desc";
 		$bottom="?mod=comment&ac=list";
 		$datasql=page($countsql,$pagesql,$bottom,15);
 		echo "<form name='delform' id='delform' action='?mod=comment&act=alldel' method='post' class='margin0'>
@@ -57,6 +58,18 @@ switch($_GET['act']){
 		</div></center>";	
 	break;
 	
+		
+	case "save":
+		$id=intval($_GET['id']);
+		$query="update comment set
+		author='{$_POST['author']}',   
+		content='{$_POST['content']}'
+		 where id=$id";
+		if(query($query)){
+			echo "<script>alert('编辑成功');location='admin.php?mod=comment&act=list'</script>";
+		}
+	break;	
+		
 	case "alldel":
         $key=isset($_POST["allidd"])&&$_POST["allidd"]?$_POST["allidd"]:array(intval($_GET['id']));
 		for($i=0;$i<count($key);$i++){ 
